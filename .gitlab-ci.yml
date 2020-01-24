@@ -15,7 +15,7 @@ variables:
 
 test:
   stage: test
-  image: swift:5.0
+  image: swift:5.1
   variables:
     DATABASE_URL: postgresql://jimmy:password@postgres:5432/microservice 
     MAIL_HOST: http://localhost:8084
