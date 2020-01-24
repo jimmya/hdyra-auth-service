@@ -13,11 +13,12 @@ let package = Package(
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0-beta.2"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0-beta.2"),
-        .package(url: "https://github.com/vapor/fluent-sqlite-driver.git", from: "4.0.0-beta.2"),
+        .package(url: "https://github.com/vapor/leaf", from: "4.0.0-beta.2"),
+        .package(url: "https://github.com/jimmya/CSRF.git", .branch("master")),
+        .package(url: "https://github.com/MrLotU/SwiftPrometheus.git", from: "1.0.0-alpha"),
     ],
     targets: [
-        .target(name: "App", dependencies: ["Fluent", "FluentSQLiteDriver", "Vapor"]),
+        .target(name: "App", dependencies: ["Leaf", "CSRF", "SwiftPrometheus", "Vapor"]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App", "XCTVapor"])
     ]
