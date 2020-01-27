@@ -2,19 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "auth-service.fullname" . }}
-  annotations:
-    getambassador.io/config: |
-        ---
-        apiVersion: ambassador/v1
-        kind:  Mapping
-        name:  auth-service-mapping
-        prefix: /auth/
-        service: auth-service:8080
   labels:
     app.kubernetes.io/name: {{ include "auth-service.name" . }}
     helm.sh/chart: {{ include "auth-service.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:

@@ -21,6 +21,7 @@ final class RemoteHydraClient: HydraClient {
     func getLoginRequest(challenge: String, on request: Request) -> EventLoopFuture<HydraLoginRequest> {
         let endpoint = getHydraRequestEndpoint(for: .login, challenge: challenge)
         return request.client.get(.init(string: endpoint)).flatMapThrowing { response in
+            request.logger.debug("Response: \(response)")
             guard response.status == .ok else {
                 throw HTTPClientError.responseError
             }
@@ -33,6 +34,7 @@ final class RemoteHydraClient: HydraClient {
         return request.client.put(.init(string: endpoint), headers: [:]) { request in
             try request.content.encode(loginRequest.alwaysRememberAcceptPayload)
         }.flatMapThrowing { response in
+            request.logger.debug("Response: \(response)")
             guard response.status == .ok else {
                 throw HTTPClientError.responseError
             }
@@ -46,6 +48,7 @@ final class RemoteHydraClient: HydraClient {
         return request.client.put(.init(string: endpoint), headers: [:]) { request in
             try request.content.encode(body)
         }.flatMapThrowing { response in
+            request.logger.debug("Response: \(response)")
             guard response.status == .ok else {
                 throw HTTPClientError.responseError
             }
@@ -56,6 +59,7 @@ final class RemoteHydraClient: HydraClient {
     func getConsentRequest(challenge: String, on request: Request) -> EventLoopFuture<HydraConsentRequest> {
         let endpoint = getHydraRequestEndpoint(for: .consent, challenge: challenge)
         return request.client.get(.init(string: endpoint)).flatMapThrowing { response in
+            request.logger.debug("Response: \(response)")
             guard response.status == .ok else {
                 throw HTTPClientError.responseError
             }
@@ -68,6 +72,7 @@ final class RemoteHydraClient: HydraClient {
         return request.client.put(.init(string: endpoint), headers: [:]) { request in
             try request.content.encode(consentRequest.alwaysRememberAcceptPayload)
         }.flatMapThrowing { response in
+            request.logger.debug("Response: \(response)")
             guard response.status == .ok else {
                 throw HTTPClientError.responseError
             }

@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: registry.gitlab.com/food-sharing/auth-service
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 nameOverride: ""
 fullnameOverride: ""
@@ -15,6 +15,15 @@ fullnameOverride: ""
 service:
   type: ClusterIP
   port: 8080
+  annotations:
+    getambassador.io/config: |
+        ---
+        apiVersion: ambassador/v2
+        kind:  Mapping
+        name:  auth-service-mapping
+        prefix: /auth/
+        service: auth-service:8080
+        rewrite: /auth/
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
