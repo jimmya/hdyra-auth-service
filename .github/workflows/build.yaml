@@ -1,31 +1,15 @@
 name: build
-on: push
+on: [push]
 jobs:
-  container:
-    image: swift:5.1
-  runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v1
-  - run: swift package resolve
-  - run: swift package clean
-  - run: swift test
-
-
-# test:
-#   stage: test
-#   image: swift:5.1
-#   variables:
-#     DATABASE_URL: postgresql://jimmy:password@postgres:5432/microservice 
-#     MAIL_HOST: http://localhost:8084
-#     BASE_URL: http://localhost:8082
-#   services:
-#     - postgres
-#   before_script:
-#     - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/food-sharing/scopes.git".insteadOf https://gitlab.com/food-sharing/scopes.git
-#   script:
-#     - apt-get -qq update && apt-get install -y libssl-dev libicu-dev zlib1g-dev
-#     - swift package resolve
-#     - swift package clean
-#     - swift test
-#   tags:
-#     - docker
+  build:
+    container:
+      image: swift:5.1
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Resolve packages
+      run: swift package resolve
+    - name: Clean package
+      run: swift package clean
+    - name: Test
+      run: swift test
