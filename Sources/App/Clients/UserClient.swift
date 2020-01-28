@@ -20,6 +20,7 @@ final class RemoteUserClient: UserClient {
         return request.client.post(.init(string: url), headers: [:]) { request in
             try request.content.encode(requestBody)
         }.flatMapThrowing { response in
+            request.logger.debug("Response: \(response)")
             guard response.status == .ok else {
                 throw HTTPClientError.responseError
             }
